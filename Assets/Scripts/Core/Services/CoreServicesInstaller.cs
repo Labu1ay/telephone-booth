@@ -10,6 +10,7 @@ namespace TelephoneBooth.Core.Services
       Container.BindInterfacesAndSelfTo<SaveLoadService>().AsSingle();
       Container.BindInterfacesAndSelfTo<AudioService>().AsSingle();
       Container.BindInterfacesAndSelfTo<SceneLoaderService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<GameStateService>().AsSingle();
     }
   }
 }

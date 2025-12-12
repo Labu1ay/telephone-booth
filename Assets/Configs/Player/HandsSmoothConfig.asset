@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7019b0093bf4f4984ab82419198635c, type: 3}
+  m_Name: HandsSmoothConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Configs.HandsSmoothConfig
+  <Smooth>k__BackingField: 4
+  <Amount>k__BackingField: 0.077
+  <MaxAmount>k__BackingField: 0.1
+  <RotationSmooth>k__BackingField: 4
+  <RotationAmount>k__BackingField: 4.31
+  <MaxRotationAmount>k__BackingField: 5
+  <RotationMovementMultiplier>k__BackingField: 3
+  <EnabledCroughRotation>k__BackingField: 1
+  <RotationCroughSmooth>k__BackingField: 15.63
+  <RotationCroughMultiplier>k__BackingField: 13.1
