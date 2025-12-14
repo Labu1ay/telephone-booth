@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,56 +15,21 @@ namespace TelephoneBooth.Game
     
     private Tween _tweenImage;
     private Tween _tweenText;
-    
-    private bool _isImageShowing = true;
-    private bool _isTextShowing = true;
 
     public void Init(string text)
     {
       _text.text = text;
-      _tweenImage = Image.DOFade(0f, 0f);
-      _tweenText = _text.DOFade(0f, 0f);
     }
 
-    public void ShowImage()
-    {
-      if(_isImageShowing) return;
-      _isImageShowing = true;
-      
-      ChangeFadeImage(1f);
-    }
-
-    public void HideImage()
-    {
-      if(!_isImageShowing) return;
-      _isImageShowing = false;
-      
-      ChangeFadeImage(0f);
-    }
-
-    public void ShowText()
-    {
-      if(_isTextShowing) return;
-      _isTextShowing = true;
-      
-      ChangeFadeText(1f);
-    }
-
-    public void HideText()
-    {
-      if(!_isTextShowing) return;
-      _isTextShowing = false;
-      
-      ChangeFadeText(0f);
-    }
-
-    private void ChangeFadeImage(float fadeValue)
+    public void ChangeFadeImage(float fadeValue, Action callback = null)
     {
       _tweenImage?.Kill();
-      _tweenImage = Image.DOFade(fadeValue, FADE_DURATION);
+      _tweenImage = Image
+        .DOFade(fadeValue, FADE_DURATION)
+        .OnComplete(() => callback?.Invoke());
     }
 
-    private void ChangeFadeText(float fadeValue)
+    public void ChangeFadeText(float fadeValue)
     {
       _tweenText?.Kill();
       _text.DOFade(fadeValue, FADE_DURATION);

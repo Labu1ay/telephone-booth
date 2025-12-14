@@ -8,6 +8,7 @@ namespace TelephoneBooth.Core.Services
     GameObject Instantiate(string path, DiContainer diContainer, Transform parent = null);
     GameObject Instantiate(string path, DiContainer diContainer, Vector3 position, Quaternion rotation, Transform parent = null);
     T Instantiate<T>(string path, DiContainer diContainer, Transform parent = null);
+    UniTask<T> InstantiateAsync<T>(string path, DiContainer container, Transform parent = null);
     T Instantiate<T>(string path, DiContainer diContainer,  Vector3 position, Quaternion rotation,Transform parent = null);
     T Instantiate<T>(T prefab, DiContainer diContainer, Transform parent = null) where T : Component;
     T Load<T>(string path);

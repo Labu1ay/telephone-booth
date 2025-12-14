@@ -38,6 +38,14 @@ namespace TelephoneBooth.UI.ScreenSystem
       return newScreen;
     }
 
+    public Screen Get<T>() where T : Screen
+    {
+      foreach (var screen in _instances.Where(screen => screen.GetType() == typeof(T)))
+        return screen;
+      
+      return null;
+    }
+
     public void Destroy<T>() where T : Screen
     {
       foreach (var screen in _instances.ToList().Where(screen => screen.GetType() == typeof(T)))
