@@ -21,6 +21,8 @@ namespace TelephoneBooth.Game
     public void Init(string text)
     {
       _text.text = text;
+      _tweenImage = Image.DOFade(0f, 0f);
+      _tweenText = _text.DOFade(0f, 0f);
     }
 
     public void ShowImage()
