@@ -7,5 +7,6 @@
     MENU = 2,
     GAME = 3,
     PAUSE = 4,
+    INTERACTIVE = 5,
   }
 }

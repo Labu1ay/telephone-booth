@@ -1,4 +1,5 @@
 using System;
+using TelephoneBooth.Core.Services;
 using TelephoneBooth.Player.Configs;
 using UniRx;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace TelephoneBooth.Player.Components
   {
     private const float TOGGLE_SPEED = 3.0f;
     
+    [Inject] private readonly IGameStateService _gameStateService;
     [Inject] private readonly PlayerCameraConfig _setup;
     [Inject] private readonly CharacterController _characterController;
 
@@ -29,7 +31,7 @@ namespace TelephoneBooth.Player.Components
 
     private void EveryUpdate()
     {
-      if (!_setup.Enabled) return;
+      if (!_setup.Enabled || _gameStateService.GameState.Value != GameStateType.GAME) return;
       
       CheckMotion();
       ResetPosition();

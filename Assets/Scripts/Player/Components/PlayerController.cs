@@ -48,7 +48,9 @@ namespace TelephoneBooth.Player.Components
         switch (state)
         {
           case GameStateType.GAME: SetMoveAvailable(true); break;
-          case GameStateType.MENU: SetMoveAvailable(false); break;
+          case GameStateType.MENU:
+          case GameStateType.INTERACTIVE:
+            SetMoveAvailable(false); break;
         }
       }).AddTo(_disposables);
       

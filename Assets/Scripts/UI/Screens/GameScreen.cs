@@ -1,6 +1,6 @@
 ﻿using TelephoneBooth.UI.ScreenSystem;
 
-namespace TelephoneBooth.UI
+namespace TelephoneBooth.UI.Screens
 {
   public class GameScreen : Screen { }
 }

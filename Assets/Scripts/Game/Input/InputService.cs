@@ -17,6 +17,7 @@ namespace TelephoneBooth.Game
     
     private const KeyCode CrouchKey = KeyCode.LeftControl;
     private const KeyCode RunKey = KeyCode.LeftShift;
+    private const KeyCode InteractKey = KeyCode.E;
     private const KeyCode PauseKey = KeyCode.Escape;
 
     public Vector2 Axis => new(Input.GetAxis(Horizontal), Input.GetAxis(Vertical));
@@ -24,11 +25,11 @@ namespace TelephoneBooth.Game
 
     public bool IsCrouched => Input.GetKey(CrouchKey);
     public bool IsRunning => Input.GetKey(RunKey);
-
     public bool IsJumped => Input.GetButton(Jump);
 
     public event Action<bool> RunningHandler;
     public event Action PausedHandler;
+    public event Action InteractHandler;
 
     private IDisposable _disposable;
     
@@ -43,6 +44,9 @@ namespace TelephoneBooth.Game
         
         if(Input.GetKeyDown(PauseKey))
           PausedHandler?.Invoke();
+        
+        if(Input.GetKeyDown(InteractKey))
+          InteractHandler?.Invoke();
       });
     }
 
