@@ -12,7 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4140100e4fa7437d9f3b669c6d52dec3, type: 3}
   m_Name: AudioClipConfig
   m_EditorClassIdentifier: Assembly-CSharp::TelephoneBooth.Core.Configs.AudioClipConfig
-  _audioClips:
-    _pairs:
-    - _key: test
-      _value: {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 8300000, guid: 34c638d8d99ccfd44a261f13505ab317, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _audioClips
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.AudioClip,
+        UnityEngine.AudioModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: test
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
