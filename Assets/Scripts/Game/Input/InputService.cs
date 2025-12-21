@@ -30,6 +30,8 @@ namespace TelephoneBooth.Game
     public event Action<bool> RunningHandler;
     public event Action PausedHandler;
     public event Action InteractHandler;
+    public event Action LeftHandler;
+    public event Action RightHandler;
 
     private IDisposable _disposable;
     
@@ -47,6 +49,12 @@ namespace TelephoneBooth.Game
         
         if(Input.GetKeyDown(InteractKey))
           InteractHandler?.Invoke();
+        
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+          RightHandler?.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+          LeftHandler?.Invoke();
       });
     }
 

@@ -42,8 +42,6 @@ namespace TelephoneBooth.Game
       _player = await _playerFactory.GetPlayerAsync();
       _camera = await _playerCameraProvider.GetCameraAsync();
 
-      CreateViewpoint().Forget();
-
       _disposable = Observable.EveryUpdate().Subscribe(_ => EveryUpdate().Forget());
     }
 
@@ -98,7 +96,7 @@ namespace TelephoneBooth.Game
     {
       var screen = _screenFactory.Get<GameScreen>();
       
-      if (screen == null)
+      if (screen == null || _viewpointIcon != null)
         return false;
 
       _viewpointIcon = await _assetService.InstantiateAsync<ViewpointIcon>(VIEWPOINT_PATH, _diContainer, screen.transform);

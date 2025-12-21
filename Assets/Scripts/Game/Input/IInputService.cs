@@ -8,6 +8,8 @@ namespace TelephoneBooth.Game
     event Action<bool> RunningHandler;
     event Action PausedHandler;
     event Action InteractHandler;
+    event Action LeftHandler;
+    event Action RightHandler;
     Vector2 MouseAxis { get; }
     Vector2 Axis { get; }
     bool IsCrouched { get; }
