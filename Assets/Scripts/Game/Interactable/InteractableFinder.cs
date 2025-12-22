@@ -1,5 +1,6 @@
 ﻿using System;
 using TelephoneBooth.Core.Services;
+using TelephoneBooth.Game.Interactable.Services;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ namespace TelephoneBooth.Game.Interactable
     [Inject] private readonly IGameStateService _gameStateService;
     [Inject] private readonly IPlayerCameraProvider _playerCameraProvider;
     [Inject] private readonly IInputService _inputService;
+    [Inject] private readonly IInteractableTooltipService _interactableTooltipService;
 
     private IInteractable _interactable;
     
@@ -47,9 +49,12 @@ namespace TelephoneBooth.Game.Interactable
           if(_interactable == interactable)
             return;
           
-          _interactable?.Outline.HideOutline();
+          ClearInteractable();
           _interactable = interactable;
           _interactable.Outline.ShowOutline();
+
+          if (_interactable is ITooltipInteractable tooltipInteractable) 
+            _interactableTooltipService.TryShowTooltip(tooltipInteractable.TooltipText);
         }
         else
         {
@@ -66,6 +71,8 @@ namespace TelephoneBooth.Game.Interactable
     {
       if(_interactable == null)
         return;
+      
+      _interactableTooltipService.HideTooltip();
       
       _interactable?.Outline.HideOutline();
       _interactable = null;

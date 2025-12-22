@@ -2,7 +2,7 @@
 {
   public interface IInteractable
   {
-    public InteractableOutline Outline { get; }
-    public void Interact();
+    InteractableOutline Outline { get; }
+    void Interact();
   }
 }

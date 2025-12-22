@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TelephoneBooth.Game.Environments
 {
-  public class Door : MonoBehaviour, IInteractable
+  public class Door : MonoBehaviour, ITooltipInteractable
   {
     private const float OPEN_DURATION = 0.75f;
 
@@ -18,6 +18,8 @@ namespace TelephoneBooth.Game.Environments
     private Tween _tween;
 
     private CompositeDisposable _disposables = new CompositeDisposable();
+    
+    public string TooltipText => "Press E to open or close the door";
 
     public void Interact()
     {
