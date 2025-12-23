@@ -23,7 +23,7 @@ namespace TelephoneBooth.Player.Components
     
     private Vector3 _moveDirection = Vector3.zero;
     
-    private bool _moveAvailable = true;
+    public bool MoveAvailable { get; private set; } = true;
     private bool _runningAvailable = true;
     
     private bool _isClimbing;
@@ -38,6 +38,7 @@ namespace TelephoneBooth.Player.Components
     private float _installFOV;
     private float _runningValue;
     private float _installCroughHeight;
+    private float _installCharacterRadius;
 
     private CompositeDisposable _disposables = new CompositeDisposable();
 
@@ -50,6 +51,7 @@ namespace TelephoneBooth.Player.Components
           case GameStateType.GAME: SetMoveAvailable(true); break;
           case GameStateType.MENU:
           case GameStateType.INTERACTIVE:
+          case GameStateType.INVENTORY:
             SetMoveAvailable(false); break;
         }
       }).AddTo(_disposables);
@@ -57,6 +59,7 @@ namespace TelephoneBooth.Player.Components
       _playerCameraProvider.SetCamera(_camera);
 
       _installCroughHeight = _characterController.height;
+      _installCharacterRadius = _characterController.radius;
       _installFOV = _camera.fieldOfView;
 
       _runningValue = _setup.RunningSpeed;
@@ -85,7 +88,7 @@ namespace TelephoneBooth.Player.Components
 
       _isRunning = !_isCrough && _runningAvailable && _inputService.IsRunning;
 
-      float speed = _moveAvailable ? (_isRunning ? _runningValue : WalkingValue) : 0f;
+      float speed = MoveAvailable ? (_isRunning ? _runningValue : WalkingValue) : 0f;
       Vertical = speed * _inputService.Axis.y;
       Horizontal = speed * _inputService.Axis.x;
 
@@ -102,13 +105,13 @@ namespace TelephoneBooth.Player.Components
 
     private void HandleJump()
     {
-      if (_inputService.IsJumped && _moveAvailable && _characterController.isGrounded && !_isClimbing)
+      if (_inputService.IsJumped && MoveAvailable && _characterController.isGrounded && !_isClimbing)
         _moveDirection.y = _setup.JumpSpeed;
     }
 
     private void HandleCamera()
     {
-      if (Cursor.lockState != CursorLockMode.Locked || !_moveAvailable) return;
+      if (Cursor.lockState != CursorLockMode.Locked || !MoveAvailable) return;
 
       _lookVertical = -_inputService.MouseAxis.y;
       _lookHorizontal = _inputService.MouseAxis.x;
@@ -124,24 +127,26 @@ namespace TelephoneBooth.Player.Components
 
     private void HandleCrouch()
     {
-      if (_inputService.IsCrouched)
+      if (_inputService.IsCrouched &&  MoveAvailable)
       {
         _isCrough = true;
-        _characterController.height =
-          Mathf.Lerp(_characterController.height, _setup.CroughHeight, 5f * Time.deltaTime);
+        _characterController.height = Mathf.Lerp(_characterController.height, _setup.CroughHeight, 5f * Time.deltaTime);
+        _characterController.radius = Mathf.Lerp(_characterController.radius, _setup.CroughRadius, 5f * Time.deltaTime);
+        
         WalkingValue = Mathf.Lerp(WalkingValue, _setup.CroughSpeed, 6f * Time.deltaTime);
       }
       else if (!Physics.Raycast(_cameraTransform.position, Vector3.up, 0.8f, 1) &&
                _characterController.height != _installCroughHeight)
       {
         _isCrough = false;
-        _characterController.height =
-          Mathf.Lerp(_characterController.height, _installCroughHeight, 6f * Time.deltaTime);
+        _characterController.height = Mathf.Lerp(_characterController.height, _installCroughHeight, 6f * Time.deltaTime);
+        _characterController.radius = Mathf.Lerp(_characterController.radius, _installCharacterRadius, 6f * Time.deltaTime);
+        
         WalkingValue = Mathf.Lerp(WalkingValue, _setup.WalkingSpeed, 4f * Time.deltaTime);
       }
     }
 
-    private void SetMoveAvailable(bool value) => _moveAvailable = value;
+    private void SetMoveAvailable(bool value) => MoveAvailable = value;
     
     public void SetRunningAvailable(bool value) => _runningAvailable = value;
     

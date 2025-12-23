@@ -21,7 +21,8 @@ MonoBehaviour:
   <LookXLimit>k__BackingField: 80
   <RunningFOV>k__BackingField: 70
   <SpeedToFOV>k__BackingField: 4
-  <CroughHeight>k__BackingField: 1
+  <CroughHeight>k__BackingField: 0.6
+  <CroughRadius>k__BackingField: 0.25
   <CroughSpeed>k__BackingField: 1
   <CanClimbing>k__BackingField: 1
   <Speed>k__BackingField: 12.11

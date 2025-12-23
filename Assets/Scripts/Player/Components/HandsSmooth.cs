@@ -12,6 +12,7 @@ namespace TelephoneBooth.Player.Components
     [Inject] private readonly IInputService _inputService;
     [Inject] private readonly HandsSmoothConfig _setup;
     [Inject] private readonly CharacterController _characterController;
+    [Inject] private readonly PlayerController _playerController;
 
     private float _crouchRotation;
     private Vector3 _startLocalPosition;
@@ -29,6 +30,8 @@ namespace TelephoneBooth.Player.Components
 
     private void EveryUpdate()
     {
+      if(!_playerController.MoveAvailable) return;
+      
       var axis = _inputService.Axis;
       var mouseAxis = _inputService.MouseAxis;
 

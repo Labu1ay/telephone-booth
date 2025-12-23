@@ -8,5 +8,6 @@
     GAME = 3,
     PAUSE = 4,
     INTERACTIVE = 5,
+    INVENTORY = 6,
   }
 }

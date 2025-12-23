@@ -20,6 +20,7 @@ namespace Player.Configs
 
     [field: Header("Crouch Settings")]
     [field: SerializeField] public float CroughHeight { get; private set; } = 1f;
+    [field: SerializeField] public float CroughRadius { get; private set; } = 0.25f;
     [field: SerializeField, Range(0.1f, 5)] public float CroughSpeed { get; private set; } = 1f;
     
     [field: Header("ClimbSettings")] 

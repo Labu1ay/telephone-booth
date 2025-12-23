@@ -14,6 +14,7 @@ namespace TelephoneBooth.Player.Components
     [Inject] private readonly PlayerControllerConfig _playerSetup;
     [Inject] private readonly HandsHolderConfig _setup;
     [Inject] private readonly CharacterController _characterController;
+    [Inject] private readonly PlayerController _playerController;
 
     private float _toggleSpeedThreshold;
     private float _currentBobAmplitude;
@@ -42,7 +43,7 @@ namespace TelephoneBooth.Player.Components
 
     private void EveryUpdate()
     {
-      if (!_setup.Enabled)
+      if (!_setup.Enabled || !_playerController.MoveAvailable)
         return;
 
       float playerHorizontalSpeed = new Vector3(
