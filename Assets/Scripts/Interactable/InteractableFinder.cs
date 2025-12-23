@@ -75,9 +75,12 @@ namespace TelephoneBooth.Game.Interactable
     {
       if(_interactable == null)
         return;
-      
-      if(_interactableComponent == null)
+
+      if (_interactableComponent == null)
+      {
+        _interactable = null;
         return;
+      }
       
       _tooltipService.HideTooltip();
       
