@@ -10,7 +10,8 @@ namespace TelephoneBooth.Game.SecurityCamera
   {
     [Inject] private readonly IInputService _inputService;
     [Inject] private readonly IGameStateService _gameStateService;
-    [Inject] private readonly IPlayerCameraProvider _playerCameraProvider;
+    [Inject] private readonly ICameraMovementService _cameraMovementService;
+    [Inject] private readonly IInteractiveCameraService _interactiveCameraService;
     [Inject] private readonly ISecurityCameraService _securityCameraService;
     
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
@@ -21,9 +22,10 @@ namespace TelephoneBooth.Game.SecurityCamera
     public void Interact()
     {
         _gameStateService.SetGameState(GameStateType.INTERACTIVE);
-        _playerCameraProvider.SetCameraPoint(_cameraPoint,callback: () =>
+        _cameraMovementService.SetCameraPoint(_cameraPoint,callback: () =>
         {
           _inputService.InteractHandler += InteractHandler;
+          _interactiveCameraService.AddHandleCamera(5f, 10f);
           _securityCameraService.EnableMonitor();
         });
       
@@ -32,10 +34,10 @@ namespace TelephoneBooth.Game.SecurityCamera
     private async void InteractHandler()
     {
       _inputService.InteractHandler -= InteractHandler;
-      
+      _interactiveCameraService.RemoveHandleCamera();
       await _securityCameraService.DisableMonitor();
       
-      _playerCameraProvider.RollbackCamera(callback: () =>
+      _cameraMovementService.RollbackCamera(callback: () =>
       {
         _gameStateService.SetGameState(GameStateType.GAME);
       });

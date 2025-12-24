@@ -13,10 +13,12 @@ namespace TelephoneBooth.Player.Factory
     [Inject] private readonly DiContainer _diContainer;
 
     public GameObject Player { get; private set; }
+    public CharacterController CharacterController { get; private set; }
     
     public void CreatePlayer(Vector3 position, Quaternion rotation)
     {
       Player = _assetService.Instantiate(PLAYER_PATH, _diContainer, position, rotation);
+      CharacterController = Player.GetComponent<CharacterController>();
     }
 
     public async UniTask<GameObject> GetPlayerAsync()

@@ -99,7 +99,9 @@ namespace TelephoneBooth.Player.Components
       _moveDirection = forward * Vertical + right * Horizontal;
       _moveDirection.y = y;
 
-      _characterController.Move(_moveDirection * Time.deltaTime);
+      if(_characterController.enabled == true)
+        _characterController.Move(_moveDirection * Time.deltaTime);
+      
       _isMoving = Mathf.Abs(Horizontal) > 0.01f || Mathf.Abs(Vertical) > 0.01f;
     }
 
