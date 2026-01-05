@@ -36,6 +36,18 @@ namespace TelephoneBooth.Player.Services
       await _sequence.ToUniTask();
       _playerFactory.CharacterController.enabled = true;
     }
+    
+    public async UniTask MoveToPosition(Vector3 needPosition, float duration = 0.5f)
+    {
+      
+      _playerFactory.CharacterController.enabled = false;
+      _sequence?.Kill();
+      _sequence = DOTween.Sequence();
+      _sequence.Append(_playerTransform.DOMove(needPosition, duration));
+
+      await _sequence.ToUniTask();
+      _playerFactory.CharacterController.enabled = true;
+    }
 
     public void LateDispose()
     {

@@ -29,6 +29,7 @@ namespace TelephoneBooth.Game.Interactable
       _quickOutline.enabled = false;
     }
 
+    public void ChangeOutlineColor(Color color) => _quickOutline.OutlineColor = color;
 
     public void ShowOutline() => _quickOutline.enabled = true;
 

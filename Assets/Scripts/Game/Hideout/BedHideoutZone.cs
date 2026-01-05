@@ -6,6 +6,12 @@ namespace TelephoneBooth.Game.Hideout
   {
     public override void Interact()
     {
+      if (_playerVisibleService.IsVisible.Value)
+      {
+        _tooltipService.TryShowTemporaryTooltip("She sees you!");
+        return;
+      }
+      
       base.Interact();
       
       _cameraMovementService.SetCameraPointWithCurve(_cameraPoint , callback: () =>

@@ -20,7 +20,7 @@ namespace TelephoneBooth.Player.Components
     [SerializeField] private GameObject _hands;
     
     private bool _wallDistance;
-    private IDisposable _disposable;
+    private CompositeDisposable _disposables = new CompositeDisposable();
 
     private void Start()
     {
@@ -28,12 +28,15 @@ namespace TelephoneBooth.Player.Components
       {
         switch(state)
         {
-          case GameStateType.INTERACTIVE: HideHands().Forget(); break;
+          case GameStateType.INTERACTIVE: 
+          case GameStateType.DEATH: 
+            HideHands().Forget(); break;
           case GameStateType.GAME: ShowHands(); break;
         }
-      });
+      })
+      .AddTo(_disposables);
       
-      _disposable = Observable.EveryUpdate().Subscribe(_ => EveryUpdate());
+      Observable.EveryUpdate().Subscribe(_ => EveryUpdate()).AddTo(_disposables);
     }
 
     private void EveryUpdate()
@@ -68,7 +71,7 @@ namespace TelephoneBooth.Player.Components
 
     private void OnDestroy()
     {
-      _disposable?.Dispose();
+      _disposables?.Clear();
     }
   }
 }

@@ -7,6 +7,7 @@ namespace TelephoneBooth.Player.Services
     public override void InstallBindings()
     {
       Container.BindInterfacesAndSelfTo<PlayerMovementService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<PlayerVisibleService>().AsSingle();
     }
   }
 }

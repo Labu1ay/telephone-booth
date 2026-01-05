@@ -52,6 +52,7 @@ namespace TelephoneBooth.Player.Components
           case GameStateType.MENU:
           case GameStateType.INTERACTIVE:
           case GameStateType.INVENTORY:
+          case GameStateType.DEATH:
             SetMoveAvailable(false); break;
         }
       }).AddTo(_disposables);
@@ -99,7 +100,7 @@ namespace TelephoneBooth.Player.Components
       _moveDirection = forward * Vertical + right * Horizontal;
       _moveDirection.y = y;
 
-      if(_characterController.enabled == true)
+      if(_characterController.enabled)
         _characterController.Move(_moveDirection * Time.deltaTime);
       
       _isMoving = Mathf.Abs(Horizontal) > 0.01f || Mathf.Abs(Vertical) > 0.01f;

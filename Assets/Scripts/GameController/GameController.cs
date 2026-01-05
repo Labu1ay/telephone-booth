@@ -43,6 +43,7 @@ namespace TelephoneBooth.Game.GameController
         case GameStateType.PAUSE: _screenManager.ShowScreen<PauseScreen>(); break;
         case GameStateType.INTERACTIVE: _screenManager.ShowScreen<InteractiveScreen>(); break;
         case GameStateType.INVENTORY: _screenManager.ShowScreen<InventoryScreen>(); break;
+        case GameStateType.DEATH: HideCursor(); break;
       }
     }
     
@@ -59,6 +60,8 @@ namespace TelephoneBooth.Game.GameController
 
     private void PauseHandler()
     {
+      if(_gameStateService.GameState.Value == GameStateType.DEATH) return;
+      
       if (_gameStateService.GameState.Value == GameStateType.INVENTORY)
       {
         _gameStateService.SetGameState(GameStateType.GAME);

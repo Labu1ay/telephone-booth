@@ -9,5 +9,7 @@
     PAUSE = 4,
     INTERACTIVE = 5,
     INVENTORY = 6,
+    DEATH = 7,
+    GAMEOVER = 8,
   }
 }

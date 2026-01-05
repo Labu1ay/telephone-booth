@@ -18,6 +18,12 @@ namespace TelephoneBooth.Game.Hideout
     
     public override async void Interact()
     {
+      if (_playerVisibleService.IsVisible.Value)
+      {
+        _tooltipService.TryShowTemporaryTooltip("She sees you!");
+        return;
+      }
+      
       base.Interact();
 
       await _playerMovementService.MoveToPosition(_playerPoint);
