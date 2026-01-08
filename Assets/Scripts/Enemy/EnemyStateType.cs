@@ -8,5 +8,6 @@
     Chase = 3,
     LosePlayer = 4,
     CatchPlayer = 5,
+    Look = 6,
   }
 }

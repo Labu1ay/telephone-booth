@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using TelephoneBooth.Core.Services;
 using UniRx;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace TelephoneBooth.Game
     private readonly IPlayerCameraProvider _playerCameraProvider;
     private readonly IGameStateService _gameStateService;
     
-    private Transform _cameraTransform;
+    private Transform _cameraRootTransform;
     
     private float _lookVertical;
     private float _lookHorizontal;
@@ -40,12 +41,13 @@ namespace TelephoneBooth.Game
 
     public async void Initialize()
     {
-      _cameraTransform = (await _playerCameraProvider.GetCameraAsync()).transform;
+      await UniTask.WaitWhile(() => _playerCameraProvider.CameraRootTransform == null);
+      _cameraRootTransform = _playerCameraProvider.CameraRootTransform;
     }
 
     public void AddHandleCamera(float lookXLimit = 10f, float lookYLimit = 25f)
     {
-      var euler = _cameraTransform.rotation.eulerAngles;
+      var euler = _cameraRootTransform.rotation.eulerAngles;
       _baseX = NormalizeAngle(euler.x);
       _baseY = NormalizeAngle(euler.y);
 
@@ -60,7 +62,7 @@ namespace TelephoneBooth.Game
         _rotationX = Mathf.Clamp(_rotationX + (-_inputService.MouseAxis.y) * LOOK_SPEED, -lookXLimit, lookXLimit);
         _rotationY = Mathf.Clamp(_rotationY + (_inputService.MouseAxis.x) * LOOK_SPEED, -lookYLimit, lookYLimit);
 
-        _cameraTransform.rotation = Quaternion.Euler(_baseX + _rotationX, _baseY + _rotationY, 0f);
+        _cameraRootTransform.rotation = Quaternion.Euler(_baseX + _rotationX, _baseY + _rotationY, 0f);
       });
     }
 

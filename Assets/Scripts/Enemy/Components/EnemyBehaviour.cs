@@ -32,14 +32,15 @@ namespace TelephoneBooth.Enemy.Components
       _enemyStateService.EnemyStateFinished += EnemyStateFinished;
       _enemyMovement.Finished += MovementFinished;
       
-      _enemyStateService.SetEnemyState(EnemyStateType.Idle);
+      _enemyStateService.SetEnemyState(EnemyStateType.Look);
     }
 
     private void EnemyStateStarted(EnemyStateType enemyStateType)
     {
       switch (enemyStateType)
       {
-        case EnemyStateType.Idle: SetEnemyWaiting(); break;
+        case EnemyStateType.Idle: SetEnemyIdle(); break;
+        case EnemyStateType.Look: SetEnemyWaiting(); break;
         case EnemyStateType.Moving: SetEnemyMovementPoint(); break;
         case EnemyStateType.Chase: SetEnemyMovementTarget(); break;
         case EnemyStateType.LosePlayer: SetEnemyLostPlayer(); break;
@@ -56,10 +57,15 @@ namespace TelephoneBooth.Enemy.Components
       switch (_enemyStateService.EnemyState.Value)
       {
         case EnemyStateType.LosePlayer:
-        case EnemyStateType.Moving: _enemyStateService.SetEnemyState(EnemyStateType.Idle); break;
+        case EnemyStateType.Moving: _enemyStateService.SetEnemyState(EnemyStateType.Look); break;
         case EnemyStateType.Chase: _enemyStateService.SetEnemyState(EnemyStateType.CatchPlayer); break;
         
       }
+    }
+    
+    private void SetEnemyIdle()
+    {
+      _enemyMovement.MoveTo(transform.position);
     }
 
     private void SetEnemyWaiting() => 

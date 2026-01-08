@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -9,7 +10,7 @@ namespace TelephoneBooth.Game
   {
     private readonly IPlayerCameraProvider _playerCameraProvider;
 
-    private Camera _camera;
+    private Transform _cameraRootTransform;
     private Vector3 _startPosition;
     private Vector3 _startEulerAngles;
     private Sequence _sequence;
@@ -22,32 +23,33 @@ namespace TelephoneBooth.Game
 
     public async void Initialize()
     {
-      _camera = await _playerCameraProvider.GetCameraAsync();
+      await UniTask.WaitWhile(() => _playerCameraProvider.CameraRootTransform == null);
+      _cameraRootTransform = _playerCameraProvider.CameraRootTransform;
     }
 
     public void SetCameraPoint(Transform target, float duration = 0.5f, Action callback = null) =>
-      MoveCamera(_camera.transform.position, target.position,
-        _camera.transform.eulerAngles, target.rotation.eulerAngles,
+      MoveCamera(_cameraRootTransform.position, target.position,
+        _cameraRootTransform.eulerAngles, target.rotation.eulerAngles,
         duration, 0f, callback);
 
     public void SetCameraPointWithCurve(Transform target, float duration = 0.5f, float centerOffset = -0.5f,
       Action callback = null)
     {
-      _startPosition = _camera.transform.position;
-      _startEulerAngles = _camera.transform.eulerAngles;
+      _startPosition = _cameraRootTransform.position;
+      _startEulerAngles = _cameraRootTransform.eulerAngles;
 
       MoveCamera(_startPosition, target.position, _startEulerAngles, target.rotation.eulerAngles, duration,
         centerOffset, callback);
     }
 
     public void RollbackCamera(float duration = 0.5f, Action callback = null) =>
-      MoveCamera(_camera.transform.position, _startPosition,
-        _camera.transform.eulerAngles, _startEulerAngles,
+      MoveCamera(_cameraRootTransform.position, _startPosition,
+        _cameraRootTransform.eulerAngles, _startEulerAngles,
         duration, 0f, callback);
 
     public void RollbackCameraWithCurve(float duration = 0.5f, float centerOffset = -0.5f, Action callback = null) =>
-      MoveCamera(_camera.transform.position, _startPosition, 
-        _camera.transform.eulerAngles, _startEulerAngles,
+      MoveCamera(_cameraRootTransform.position, _startPosition, 
+        _cameraRootTransform.eulerAngles, _startEulerAngles,
         duration, centerOffset, callback);
 
     private void MoveCamera(Vector3 startPos, Vector3 endPos, Vector3 startRot, Vector3 endRot,
@@ -69,15 +71,15 @@ namespace TelephoneBooth.Game
           t = x;
           Vector3 a = Vector3.Lerp(startPos, mid, t);
           Vector3 b = Vector3.Lerp(mid, endPos, t);
-          _camera.transform.position = Vector3.Lerp(a, b, t);
+          _cameraRootTransform.position = Vector3.Lerp(a, b, t);
         }, 1f, duration).SetEase(Ease.InOutQuad));
       }
       else
       {
-        _sequence.Append(_camera.transform.DOMove(endPos, duration).SetEase(Ease.InOutQuad));
+        _sequence.Append(_cameraRootTransform.DOMove(endPos, duration).SetEase(Ease.InOutQuad));
       }
 
-      _sequence.Join(_camera.transform.DORotate(endRot, duration).SetEase(Ease.InOutQuad));
+      _sequence.Join(_cameraRootTransform.DORotate(endRot, duration).SetEase(Ease.InOutQuad));
       _sequence.OnComplete(() => callback?.Invoke());
     }
 

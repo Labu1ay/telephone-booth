@@ -1,4 +1,5 @@
-﻿using TelephoneBooth.Core.Services;
+﻿using System;
+using TelephoneBooth.Core.Services;
 using TelephoneBooth.Game.Interactable;
 using TelephoneBooth.Game.SecurityCamera.Services;
 using UnityEngine;
@@ -13,11 +14,17 @@ namespace TelephoneBooth.Game.SecurityCamera
     [Inject] private readonly ICameraMovementService _cameraMovementService;
     [Inject] private readonly IInteractiveCameraService _interactiveCameraService;
     [Inject] private readonly ISecurityCameraService _securityCameraService;
+    [Inject] private readonly IEnemyVisibleService _enemyVisibleService;
     
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
 
     [SerializeField] private Transform _cameraPoint;
     [SerializeField] private SecurityCameraMonitor _securityCameraMonitor;
+
+    private void Start()
+    {
+      _enemyVisibleService.DangerousTimeOvered += DangerousTimeOvered;
+    }
 
     public void Interact()
     {
@@ -41,6 +48,18 @@ namespace TelephoneBooth.Game.SecurityCamera
       {
         _gameStateService.SetGameState(GameStateType.GAME);
       });
+    }
+    
+    private void DangerousTimeOvered()
+    {
+      _inputService.InteractHandler -= InteractHandler;
+      _interactiveCameraService.RemoveHandleCamera();
+      _cameraMovementService.SetCameraPoint(_cameraPoint);
+    }
+
+    private void OnDestroy()
+    {
+      _enemyVisibleService.DangerousTimeOvered -= DangerousTimeOvered;
     }
   }
 }

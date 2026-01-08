@@ -12,14 +12,14 @@ namespace TelephoneBooth.Enemy.Factory
     [Inject] private readonly IAssetService _assetService;
     [Inject] private readonly DiContainer _diContainer;
 
-    public GameObject Enemy { get; private set; }
+    public BaseEnemy Enemy { get; private set; }
     
     public void CreateEnemy(Vector3 position, Quaternion rotation)
     {
-      Enemy = _assetService.Instantiate(ENEMY_PATH, _diContainer, position, rotation);
+      Enemy = _assetService.Instantiate<BaseEnemy>(ENEMY_PATH, _diContainer, position, rotation);
     }
 
-    public async UniTask<GameObject> GetEnemyAsync()
+    public async UniTask<BaseEnemy> GetEnemyAsync()
     {
       await UniTask.WaitWhile(() => Enemy == null);
       return Enemy;

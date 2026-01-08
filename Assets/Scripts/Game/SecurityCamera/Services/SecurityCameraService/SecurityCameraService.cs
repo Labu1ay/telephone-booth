@@ -2,15 +2,13 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TelephoneBooth.Game.SecurityCamera.Data;
-using UniRx;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
 
 namespace TelephoneBooth.Game.SecurityCamera.Services
 {
-  public class SecurityCameraService : ISecurityCameraService, ILateDisposable
+  public class SecurityCameraService : ISecurityCameraService, IInitializable, ILateDisposable
   {
     private const int TEXTURE_WIDTH = 512;
     private const int TEXTURE_HEIGHT = 288;
@@ -18,6 +16,7 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
     private const float FADE_DURATION = 0.25f;
     
     private readonly IInputService _inputService;
+    private readonly IEnemyVisibleService _enemyVisibleService;
 
     private RenderTexture _renderTexture;
     private int _index;
@@ -29,13 +28,19 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
     private Tween _tween;
     private IDisposable _disposable;
 
-    private Camera _currentCamera =>
+    public Camera CurrentCamera =>
       _securityCameras != null && _securityCameras.Length > 0 ? _securityCameras[_index] : null;
 
     [Inject]
-    private SecurityCameraService(IInputService inputService)
+    private SecurityCameraService(IInputService inputService, IEnemyVisibleService enemyVisibleService)
     {
       _inputService = inputService;
+      _enemyVisibleService = enemyVisibleService;
+    }
+    
+    public void Initialize()
+    {
+      _enemyVisibleService.DangerousTimeOvered += DangerousTimeOvered;
     }
 
     public void Init(SecurityCameraData data)
@@ -49,9 +54,6 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
       foreach (var securityCamera in _securityCameras)
         if (securityCamera != null)
           securityCamera.enabled = false;
-
-      _inputService.LeftHandler += LeftHandler;
-      _inputService.RightHandler += RightHandler;
     }
 
     private void LeftHandler() => ApplyCamera(Wrap(_index - 1));
@@ -69,6 +71,9 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
 
       _fadeMonitorGroup.DOFade(0f, FADE_DURATION);
       
+      _inputService.LeftHandler += LeftHandler;
+      _inputService.RightHandler += RightHandler;
+      
     }
 
     private int Wrap(int i)
@@ -81,7 +86,7 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
 
     private void ApplyCamera(int newIndex)
     {
-      var oldCamera = _currentCamera;
+      var oldCamera = CurrentCamera;
       if (oldCamera != null)
       {
         oldCamera.targetTexture = null;
@@ -90,18 +95,25 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
 
       _index = newIndex;
 
-      var newCamera = _currentCamera;
+      var newCamera = CurrentCamera;
       if (newCamera != null)
       {
         newCamera.enabled = true;
         newCamera.targetTexture = _renderTexture;
         newCamera.aspect = (float)TEXTURE_WIDTH / TEXTURE_HEIGHT;
+        
+        _enemyVisibleService.InitCamera(newCamera);
       }
     }
 
     public async UniTask DisableMonitor()
     {
       _disposable?.Dispose();
+      
+      _inputService.LeftHandler -= LeftHandler;
+      _inputService.RightHandler -= RightHandler;
+      
+      _enemyVisibleService.DisposeCamera();
 
       _tween = _fadeMonitorGroup.DOFade(1f, FADE_DURATION);
       await _tween.ToUniTask();
@@ -130,13 +142,20 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
         _renderTexture = null;
       }
     }
+    
+    private void DangerousTimeOvered()
+    {
+      _inputService.LeftHandler -= LeftHandler;
+      _inputService.RightHandler -= RightHandler;
+      
+      _enemyVisibleService.DisposeCamera();
+    }
 
     public void LateDispose()
     {
       DisposeMonitorAndCameras();
       
-      _inputService.LeftHandler -= LeftHandler;
-      _inputService.RightHandler -= RightHandler;
+      _enemyVisibleService.DangerousTimeOvered -= DangerousTimeOvered;
     }
   }
 }

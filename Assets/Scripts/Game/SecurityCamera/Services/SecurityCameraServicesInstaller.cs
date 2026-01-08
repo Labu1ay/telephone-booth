@@ -6,6 +6,7 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
   {
     public override void InstallBindings()
     {
+      Container.BindInterfacesAndSelfTo<EnemyVisibleService>().AsSingle();
       Container.BindInterfacesAndSelfTo<SecurityCameraService>().AsSingle();
     }
   }

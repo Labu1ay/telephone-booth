@@ -5,8 +5,8 @@ namespace TelephoneBooth.Enemy.Factory
 {
   public interface IEnemyFactory
   {
-    GameObject Enemy { get; }
+    BaseEnemy Enemy { get; }
     void CreateEnemy(Vector3 position, Quaternion rotation);
-    UniTask<GameObject> GetEnemyAsync();
+    UniTask<BaseEnemy> GetEnemyAsync();
   }
 }

@@ -35,6 +35,16 @@ namespace TelephoneBooth.Core.Services
       var instance = container.InstantiatePrefabForComponent<T>(prefab, parent);
       return instance;
     }
+    
+    public async UniTask<T> InstantiateAsync<T>(string path, DiContainer container, Vector3 position, Quaternion rotation, Transform parent = null)
+    {
+      var request = Resources.LoadAsync<GameObject>(path);
+      await request;
+
+      var prefab = request.asset as GameObject;
+      var instance = container.InstantiatePrefabForComponent<T>(prefab,position, rotation, parent);
+      return instance;
+    }
 
     public T Instantiate<T>(string path, DiContainer diContainer, Vector3 position, Quaternion rotation, Transform parent = null)
     {
