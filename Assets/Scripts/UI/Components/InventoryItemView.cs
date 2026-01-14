@@ -15,6 +15,7 @@ namespace TelephoneBooth.UI.Components
     [SerializeField] private Image _iconImage;
     [SerializeField] private TextMeshProUGUI _countText;
     [SerializeField] private TextMeshProUGUI _nameText;
+    
     public void Init(InventorySlot slotData)
     {
       _countText.text = slotData.Count.ToString();

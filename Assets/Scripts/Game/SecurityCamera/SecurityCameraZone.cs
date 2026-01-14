@@ -38,8 +38,10 @@ namespace TelephoneBooth.Game.SecurityCamera
       
     }
 
-    private async void InteractHandler()
+    private async void InteractHandler(bool isInteracted)
     {
+      if(!isInteracted) return;
+      
       _inputService.InteractHandler -= InteractHandler;
       _interactiveCameraService.RemoveHandleCamera();
       await _securityCameraService.DisableMonitor();

@@ -21,8 +21,10 @@ namespace TelephoneBooth.Game.Hideout
       });
     }
     
-    private void InteractHandler()
+    private void InteractHandler(bool isInteracted)
     {
+      if(!isInteracted) return;
+      
       _inputService.InteractHandler -= InteractHandler;
       _interactiveCameraService.RemoveHandleCamera();
       

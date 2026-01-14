@@ -8,5 +8,6 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
     event Action DangerousTimeOvered;
     void InitCamera(Camera camera);
     void DisposeCamera();
+    void ResetDangerousTimer();
   }
 }

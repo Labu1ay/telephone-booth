@@ -30,7 +30,7 @@ namespace TelephoneBooth.Game.SecurityCamera
     private async void DangerousTimeOvered()
     {
       _enemy.SetIdle();
-      await _enemy.RotateTo(_securityCameraService.CurrentCamera.transform.position, withHead: true);
+      await _enemy.RotateTo(_securityCameraService.CurrentSecurityCamera.Camera.transform.position, withHead: true);
       await UniTask.Delay(TimeSpan.FromSeconds(0.35f));
       var enemy = await _enemyScreamerFactory.CreateEnemyScreamer(_spawnPoint.position, _spawnPoint.eulerAngles);
       _chair.SetActive(false);

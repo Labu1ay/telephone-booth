@@ -21,14 +21,16 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
     private RenderTexture _renderTexture;
     private int _index;
 
-    private Camera[] _securityCameras;
+    private CameraSecurity[] _securityCameras;
     private MeshRenderer _monitorScreenRenderer;
     private CanvasGroup _fadeMonitorGroup;
 
     private Tween _tween;
     private IDisposable _disposable;
 
-    public Camera CurrentCamera =>
+    public event Action<bool> CameraApplied;
+
+    public CameraSecurity CurrentSecurityCamera =>
       _securityCameras != null && _securityCameras.Length > 0 ? _securityCameras[_index] : null;
 
     [Inject]
@@ -86,24 +88,27 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
 
     private void ApplyCamera(int newIndex)
     {
-      var oldCamera = CurrentCamera;
+      var oldCamera = CurrentSecurityCamera;
       if (oldCamera != null)
       {
-        oldCamera.targetTexture = null;
+        oldCamera.Camera.targetTexture = null;
         oldCamera.enabled = false;
+        _enemyVisibleService.DisposeCamera();
       }
 
       _index = newIndex;
-
-      var newCamera = CurrentCamera;
-      if (newCamera != null)
-      {
-        newCamera.enabled = true;
-        newCamera.targetTexture = _renderTexture;
-        newCamera.aspect = (float)TEXTURE_WIDTH / TEXTURE_HEIGHT;
+      
+      var newCamera = CurrentSecurityCamera;
+      CameraApplied?.Invoke(newCamera.IsAvailable);
+      
+      if(!newCamera.IsAvailable) return;
+      
+      newCamera.enabled = true;
+      newCamera.Camera.targetTexture = _renderTexture;
+      newCamera.Camera.aspect = (float)TEXTURE_WIDTH / TEXTURE_HEIGHT;
         
-        _enemyVisibleService.InitCamera(newCamera);
-      }
+      _enemyVisibleService.InitCamera(newCamera.Camera);
+      
     }
 
     public async UniTask DisableMonitor()
@@ -114,6 +119,7 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
       _inputService.RightHandler -= RightHandler;
       
       _enemyVisibleService.DisposeCamera();
+      _enemyVisibleService.ResetDangerousTimer();
 
       _tween = _fadeMonitorGroup.DOFade(1f, FADE_DURATION);
       await _tween.ToUniTask();
@@ -130,7 +136,7 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
         foreach (var securityCamera in _securityCameras)
         {
           if (securityCamera == null) continue;
-          securityCamera.targetTexture = null;
+          securityCamera.Camera.targetTexture = null;
           securityCamera.enabled = false;
         }
       }

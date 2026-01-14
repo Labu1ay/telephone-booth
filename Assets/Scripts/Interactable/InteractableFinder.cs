@@ -47,6 +47,12 @@ namespace TelephoneBooth.Game.Interactable
         
         if (hit.collider.TryGetComponent(out IInteractable interactable) && distance < INTERACT_DISTANCE)
         {
+          if (hit.collider.TryGetComponent(out ILockable lockable) && lockable.IsLocked)
+          {
+            ClearInteractable();
+            return;
+          }
+          
           if(_interactable == interactable)
             return;
           
@@ -89,8 +95,21 @@ namespace TelephoneBooth.Game.Interactable
       _interactableComponent = null;
     }
 
-    private void TryInteract() => _interactable?.Interact();
-    
+    private void TryInteract(bool isInteracted)
+    {
+      switch (isInteracted)
+      {
+        case true:
+          _tooltipService.HideTooltip();
+          _interactable?.Interact();
+          break;
+        
+        case false:
+          ClearInteractable();
+          break;
+      }
+    }
+
     private void OnDestroy()
     {
       _disposable?.Dispose();

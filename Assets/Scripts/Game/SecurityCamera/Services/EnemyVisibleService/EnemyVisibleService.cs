@@ -46,16 +46,16 @@ namespace TelephoneBooth.Game.SecurityCamera.Services
       });
     }
 
-    public void DisposeCamera()
-    {
-      _disposable?.Dispose();
-      _timer = 0f;
-    }
-    
-    
+    public void DisposeCamera() => _disposable?.Dispose();
+
+    public void ResetDangerousTimer() => _timer = 0f;
+
     private bool CanCurrentlySeeEnemy(Camera camera)
     {
       var cameraTransform = camera.transform;
+      
+      if(_enemyTransform == null)
+        return false;
       
       var toEnemy = _enemyTransform.position - cameraTransform.position;
     

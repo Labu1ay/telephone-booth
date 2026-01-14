@@ -29,8 +29,8 @@ namespace TelephoneBooth.Game
     public bool IsJumped => Input.GetButton(Jump);
 
     public event Action<bool> RunningHandler;
+    public event Action<bool> InteractHandler;
     public event Action PausedHandler;
-    public event Action InteractHandler;
     public event Action InventoryHandler;
     public event Action LeftHandler;
     public event Action RightHandler;
@@ -50,7 +50,9 @@ namespace TelephoneBooth.Game
           PausedHandler?.Invoke();
         
         if(Input.GetKeyDown(InteractKey))
-          InteractHandler?.Invoke();
+          InteractHandler?.Invoke(true);
+        else if(Input.GetKeyUp(InteractKey))
+          InteractHandler?.Invoke(false);
         
         if(Input.GetKeyDown(InventoryKey))
           InventoryHandler?.Invoke();

@@ -6,8 +6,8 @@ namespace TelephoneBooth.Game
   public interface IInputService
   {
     event Action<bool> RunningHandler;
+    event Action<bool> InteractHandler;
     event Action PausedHandler;
-    event Action InteractHandler;
     event Action InventoryHandler;
     event Action LeftHandler;
     event Action RightHandler;
