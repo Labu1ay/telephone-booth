@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using TelephoneBooth.InventorySystem.Data;
 using UnityEngine;
 
 namespace TelephoneBooth.InventorySystem.Configs
@@ -13,13 +13,6 @@ namespace TelephoneBooth.InventorySystem.Configs
       = new Dictionary<ItemTypeId, InventoryItemViewData>();
     
     public InventoryItemViewData GetItemViewData(ItemTypeId itemTypeId) =>
-      _itemViews.ContainsKey(itemTypeId) ? _itemViews[itemTypeId] : null;
-  }
-
-  [Serializable]
-  public class InventoryItemViewData
-  {
-    public string ItemName;
-    public Sprite Icon;
+      _itemViews.ContainsKey(itemTypeId) ? _itemViews[itemTypeId] : default;
   }
 }

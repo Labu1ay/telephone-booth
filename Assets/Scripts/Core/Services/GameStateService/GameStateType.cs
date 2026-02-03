@@ -11,5 +11,6 @@
     INVENTORY = 6,
     DEATH = 7,
     GAMEOVER = 8,
+    GAME_INTERACTIVE = 9,
   }
 }

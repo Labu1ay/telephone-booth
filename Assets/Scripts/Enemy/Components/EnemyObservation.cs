@@ -2,6 +2,7 @@
 using TelephoneBooth.Core.Services;
 using TelephoneBooth.Enemy.Services;
 using TelephoneBooth.Game;
+using TelephoneBooth.Player.Services;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ namespace TelephoneBooth.Enemy.Components
     [Inject] private readonly IPlayerCameraProvider _playerCameraProvider;
     [Inject] private readonly IEnemyStateService _enemyStateService;
     [Inject] private readonly IGameStateService _gameStateService;
+    [Inject] private readonly IPlayerHiddenService _playerHiddenService;
 
     [SerializeField] private Transform _eyesTransform;
     
@@ -53,7 +55,7 @@ namespace TelephoneBooth.Enemy.Components
     
     private bool CanCurrentlySeePlayer()
     {
-      if(_gameStateService.GameState.Value == GameStateType.INTERACTIVE) return false;
+      if (_playerHiddenService.IsHidden.Value) return false;
       
       var toPlayer = _cameraTransform.position - _eyesTransform.position;
       var sqrDist = toPlayer.sqrMagnitude;
@@ -66,7 +68,8 @@ namespace TelephoneBooth.Enemy.Components
         return false;
 
       if (Physics.Raycast(_eyesTransform.position, toPlayer.normalized, out RaycastHit hit, Mathf.Sqrt(sqrDist)))
-        return hit.collider.gameObject.layer == LayerMask.NameToLayer(Constants.PLAYER_LAYER);
+        return hit.collider.gameObject.layer == LayerMask.NameToLayer(Constants.PLAYER_LAYER) ||
+               hit.collider.gameObject.layer == LayerMask.NameToLayer(Constants.CAMERA_LAYER);
 
       return false;
      }

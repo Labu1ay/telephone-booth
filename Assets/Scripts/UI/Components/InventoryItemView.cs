@@ -1,5 +1,4 @@
-﻿using TelephoneBooth.Core.Services;
-using TelephoneBooth.InventorySystem.Configs;
+﻿using TelephoneBooth.InventorySystem.Configs;
 using TelephoneBooth.InventorySystem.Data;
 using TMPro;
 using UnityEngine;

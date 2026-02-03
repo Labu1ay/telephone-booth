@@ -26,6 +26,8 @@ namespace TelephoneBooth.UI.ScreenSystem
       _parentTransform = parentTransform;
     }
 
+    public bool Has<T>() where T : Screen => _instances.Any(screen => screen.GetType() == typeof(T));
+
     public Screen GetOrCreate<T>() where T : Screen
     {
       foreach (var screen in _instances.Where(screen => screen.GetType() == typeof(T)))

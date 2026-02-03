@@ -75,6 +75,8 @@ namespace TelephoneBooth.Core.Services
       }
     }
 
+    public void ClearCache() => _items.Clear();
+
     private void SaveItem(string key, object obj)
     {
       var json = JsonConvert.SerializeObject(obj, _settings);

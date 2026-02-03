@@ -19,14 +19,21 @@ namespace TelephoneBooth.Player.Components
     private Vector3 _startLocalRotation;
     private Vector3 _currentRotation;
 
-    private IDisposable _disposable;
+    private CompositeDisposable _disposables = new CompositeDisposable();
 
     private void Start()
     {
       _startLocalPosition = transform.localPosition;
       _startLocalRotation = transform.localRotation.eulerAngles;
 
-      _disposable = Observable.EveryUpdate().Subscribe(_ => EveryUpdate());
+      Observable.EveryUpdate().Subscribe(_ => EveryUpdate()).AddTo(_disposables);
+
+      _gameStateService.GameState.Subscribe(state =>
+      {
+        if(state is GameStateType.INTERACTIVE or GameStateType.GAME_INTERACTIVE)
+          ForceResetPosition();
+          
+      }).AddTo(_disposables);
     }
 
     private void EveryUpdate()
@@ -72,9 +79,15 @@ namespace TelephoneBooth.Player.Components
       _currentRotation = Vector3.Lerp(_currentRotation, _startLocalRotation, 1 * Time.deltaTime);
     }
 
+    private void ForceResetPosition()
+    {
+      transform.localPosition = _startLocalPosition;
+      transform.localRotation = Quaternion.Euler(_startLocalRotation);
+    }
+
     private void OnDestroy()
     {
-      _disposable?.Dispose();
+      _disposables?.Clear();
     }
   }
 }

@@ -51,6 +51,7 @@ namespace TelephoneBooth.Game.Hideout
       {
         await _closestDoorTransform.DOLocalRotate(Vector3.zero, 0.4f).ToUniTask();
         _gameStateService.SetGameState(GameStateType.GAME);
+        SetUnhiddenStatus();
       });
     }
   }

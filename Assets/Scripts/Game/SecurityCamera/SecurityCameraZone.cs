@@ -1,5 +1,4 @@
-﻿using System;
-using TelephoneBooth.Core.Services;
+﻿using TelephoneBooth.Core.Services;
 using TelephoneBooth.Game.Interactable;
 using TelephoneBooth.Game.SecurityCamera.Services;
 using UnityEngine;
@@ -20,6 +19,7 @@ namespace TelephoneBooth.Game.SecurityCamera
 
     [SerializeField] private Transform _cameraPoint;
     [SerializeField] private SecurityCameraMonitor _securityCameraMonitor;
+    [SerializeField] private GameObject _chair;
 
     private void Start()
     {
@@ -34,6 +34,7 @@ namespace TelephoneBooth.Game.SecurityCamera
           _inputService.InteractHandler += InteractHandler;
           _interactiveCameraService.AddHandleCamera(5f, 10f);
           _securityCameraService.EnableMonitor();
+          _chair.SetActive(false);
         });
       
     }
@@ -45,6 +46,7 @@ namespace TelephoneBooth.Game.SecurityCamera
       _inputService.InteractHandler -= InteractHandler;
       _interactiveCameraService.RemoveHandleCamera();
       await _securityCameraService.DisableMonitor();
+      _chair.SetActive(true);
       
       _cameraMovementService.RollbackCamera(callback: () =>
       {

@@ -6,5 +6,6 @@ namespace TelephoneBooth.Core.Services
     bool RemovePackage(string key);
     void Save();
     void SaveKey(string key);
+    void ClearCache();
   }
 }

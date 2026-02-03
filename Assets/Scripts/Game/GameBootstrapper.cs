@@ -14,13 +14,19 @@ namespace TelephoneBooth.Game
     [Inject] private readonly IEnemyFactory _enemyFactory;
     [Inject] private readonly IGameStateService _gameStateService;
     [Inject] private readonly IScreenManager _screenManager;
+    [Inject] private readonly ISavingService _savingService;
     
     private void Start()
     {
       _gameStateService.SetGameState(GameStateType.GAME);
       _playerFactory.CreatePlayer(Vector3.zero, Quaternion.identity);
-      _enemyFactory.CreateEnemy(new Vector3(0f, 0f, 4f), Quaternion.identity);
+      //_enemyFactory.CreateEnemy(new Vector3(0f, 0f, 4f), Quaternion.identity);
       _screenManager.ShowScreen<GameScreen>();
+    }
+
+    private void OnDestroy()
+    {
+      _savingService.ClearCache();
     }
   }
 }

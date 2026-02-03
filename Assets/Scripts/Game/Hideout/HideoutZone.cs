@@ -17,6 +17,7 @@ namespace TelephoneBooth.Game.Hideout
     [Inject] protected readonly IGameStateService _gameStateService;
     [Inject] protected readonly IPlayerVisibleService _playerVisibleService;
     [Inject] protected readonly ITooltipService _tooltipService;
+    [Inject] protected readonly IPlayerHiddenService _playerHiddenService;
     
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
 
@@ -39,7 +40,10 @@ namespace TelephoneBooth.Game.Hideout
     public virtual void Interact()
     {
       _gameStateService.SetGameState(GameStateType.INTERACTIVE);
+      _playerHiddenService.SetHiddenStatus(true);
     }
+    
+    protected void SetUnhiddenStatus() => _playerHiddenService.SetHiddenStatus(false);
 
     private void OnDestroy()
     {

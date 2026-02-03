@@ -21,12 +21,14 @@ namespace TelephoneBooth.Game
     private const KeyCode InventoryKey = KeyCode.I;
     private const KeyCode PauseKey = KeyCode.Escape;
 
-    public Vector2 Axis => new(Input.GetAxis(Horizontal), Input.GetAxis(Vertical));
-    public Vector2 MouseAxis => new Vector2(Input.GetAxis(MouseX), Input.GetAxis(MouseY));
+    public Vector2 Axis => IsInputLocked ? Vector2.zero : new Vector2(Input.GetAxis(Horizontal), Input.GetAxis(Vertical));
+    public Vector2 MouseAxis => IsInputLocked ? Vector2.zero : new Vector2(Input.GetAxis(MouseX), Input.GetAxis(MouseY));
 
-    public bool IsCrouched => Input.GetKey(CrouchKey);
-    public bool IsRunning => Input.GetKey(RunKey);
-    public bool IsJumped => Input.GetButton(Jump);
+    public bool IsCrouched => !IsInputLocked && Input.GetKey(CrouchKey);
+    public bool IsRunning => !IsInputLocked && Input.GetKey(RunKey);
+    public bool IsJumped => !IsInputLocked && Input.GetButton(Jump);
+    
+    public bool IsInputLocked { get; private set; }
 
     public event Action<bool> RunningHandler;
     public event Action<bool> InteractHandler;
@@ -41,6 +43,8 @@ namespace TelephoneBooth.Game
     {
       _disposable = Observable.EveryUpdate().Subscribe(_ =>
       {
+        if(IsInputLocked) return;
+        
         if(Input.GetKeyDown(RunKey))
           RunningHandler?.Invoke(true);
         else if(Input.GetKeyUp(RunKey))
@@ -68,6 +72,11 @@ namespace TelephoneBooth.Game
     public void LateDispose()
     {
       _disposable?.Dispose();
+    }
+    
+    public void SetInputLockedStatus(bool isLocked)
+    {
+      IsInputLocked = isLocked;
     }
   }
 }

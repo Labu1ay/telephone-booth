@@ -2,7 +2,8 @@
 {
   public interface IScreenManager
   {
-    void ShowScreen<T>() where T : Screen;
+    bool HasActiveScreen<T>() where T : Screen;
+    T ShowScreen<T>() where T : Screen;
     void HideScreen<T>() where T : Screen;
     void DestroyScreen<T>() where T : Screen;
   }

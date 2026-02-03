@@ -43,7 +43,11 @@ namespace TelephoneBooth.Game.GameController
         case GameStateType.PAUSE: _screenManager.ShowScreen<PauseScreen>(); break;
         case GameStateType.INTERACTIVE: _screenManager.ShowScreen<InteractiveScreen>(); break;
         case GameStateType.INVENTORY: _screenManager.ShowScreen<InventoryScreen>(); break;
-        case GameStateType.DEATH: HideCursor(); break;
+        case GameStateType.DEATH:
+        {
+          _inputService.SetInputLockedStatus(true);
+          HideCursor(); break;
+        }
       }
     }
     

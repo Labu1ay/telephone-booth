@@ -43,6 +43,14 @@ namespace TelephoneBooth.Game
     {
       await UniTask.WaitWhile(() => _playerCameraProvider.CameraRootTransform == null);
       _cameraRootTransform = _playerCameraProvider.CameraRootTransform;
+
+      _gameStateService.GameStateStarted += GameStateStarted;
+    }
+
+    private void GameStateStarted(GameStateType stateType)
+    {
+      if (stateType != GameStateType.DEATH) return;
+      RemoveHandleCamera();
     }
 
     public void AddHandleCamera(float lookXLimit = 10f, float lookYLimit = 25f)
@@ -81,6 +89,7 @@ namespace TelephoneBooth.Game
     public void LateDispose()
     {
       RemoveHandleCamera();
+      _gameStateService.GameStateStarted -= GameStateStarted;
     }
   }
 }

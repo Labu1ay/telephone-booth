@@ -8,6 +8,7 @@ namespace TelephoneBooth.Player.Services
     {
       Container.BindInterfacesAndSelfTo<PlayerMovementService>().AsSingle();
       Container.BindInterfacesAndSelfTo<PlayerVisibleService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<PlayerHiddenService>().AsSingle();
     }
   }
 }

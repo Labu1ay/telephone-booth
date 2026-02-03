@@ -50,9 +50,10 @@ namespace TelephoneBooth.Player.Components
         {
           case GameStateType.GAME: SetMoveAvailable(true); break;
           case GameStateType.MENU:
-          case GameStateType.INTERACTIVE:
           case GameStateType.INVENTORY:
           case GameStateType.DEATH:
+          case GameStateType.INTERACTIVE:
+          case GameStateType.GAME_INTERACTIVE:
             SetMoveAvailable(false); break;
         }
       }).AddTo(_disposables);
@@ -130,7 +131,9 @@ namespace TelephoneBooth.Player.Components
 
     private void HandleCrouch()
     {
-      if (_inputService.IsCrouched &&  MoveAvailable)
+      if(!MoveAvailable) return;
+      
+      if (_inputService.IsCrouched)
       {
         _isCrough = true;
         _characterController.height = Mathf.Lerp(_characterController.height, _setup.CroughHeight, 5f * Time.deltaTime);

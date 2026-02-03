@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using Screen = TelephoneBooth.UI.ScreenSystem.Screen;
@@ -15,23 +16,25 @@ namespace TelephoneBooth.UI.Screens
 
     private void Start()
     {
-      SetTooltipTextFade(0f, 0f);
+      ForceHideTooltip().Forget();
     }
 
     public void ShowTooltip(string tooltipText)
     {
-      SetTooltipTextFade(0f, 0f);
+      ForceHideTooltip().Forget();
       
       _tooltipText.text = tooltipText;
-      SetTooltipTextFade(1f, TOOLTIP_FADE_DURATION);
+      SetTooltipTextFade(1f, TOOLTIP_FADE_DURATION).Forget();
     }
     
     public void HideTooltip() => SetTooltipTextFade(0f, TOOLTIP_FADE_DURATION);
+    public async UniTask ForceHideTooltip() => await SetTooltipTextFade(0f, 0f);
 
-    private void SetTooltipTextFade(float value, float duration)
+    private async UniTask SetTooltipTextFade(float value, float duration)
     {
       _tooltipTween?.Kill();
       _tooltipTween = _tooltipText.DOFade(value, duration);
+      await _tooltipTween.ToUniTask();
     }
   }
 }

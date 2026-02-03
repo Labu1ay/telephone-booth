@@ -31,6 +31,7 @@ namespace TelephoneBooth.Game.Hideout
       _cameraMovementService.RollbackCameraWithCurve(callback: () =>
       {
         _gameStateService.SetGameState(GameStateType.GAME);
+        SetUnhiddenStatus();
       });
     }
   }

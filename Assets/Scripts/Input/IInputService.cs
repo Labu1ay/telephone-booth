@@ -16,5 +16,8 @@ namespace TelephoneBooth.Game
     bool IsCrouched { get; }
     bool IsRunning { get; }
     bool IsJumped { get; }
+    
+    bool IsInputLocked { get; }
+    void SetInputLockedStatus(bool isLocked);
   }
 }

@@ -29,6 +29,7 @@ namespace TelephoneBooth.Player.Components
         switch(state)
         {
           case GameStateType.INTERACTIVE: 
+          case GameStateType.GAME_INTERACTIVE: 
           case GameStateType.DEATH: 
             HideHands().Forget(); break;
           case GameStateType.GAME: ShowHands(); break;

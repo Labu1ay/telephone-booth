@@ -13,6 +13,9 @@ namespace TelephoneBooth.Game.TooltipSystem.Services
     
     private GameScreen _gameScreen;
     private CancellationTokenSource _cts;
+    private CancellationTokenSource _ctsTemporary;
+
+    private bool _temporaryTooltipShowed;
 
     [Inject]
     public TooltipService(IScreenFactory screenFactory)
@@ -22,15 +25,45 @@ namespace TelephoneBooth.Game.TooltipSystem.Services
 
     public async UniTask TryShowTooltip(string tooltipText, float delaySeconds = 5f)
     {
-      if(string.IsNullOrEmpty(tooltipText)) return;
-      
       HideTooltip();
-      GetGameScreen();
       
       _cts ??= new CancellationTokenSource();
+      var cancellationHandler = await UniTask.WaitWhile(() => _temporaryTooltipShowed, cancellationToken: _cts.Token)
+        .SuppressCancellationThrow();
+      
+      if(cancellationHandler) return;
+      await ShowTooltip(tooltipText, delaySeconds, _cts.Token);
+    }
+
+    public async UniTask TryShowTemporaryTooltip(string tooltipText, float delaySeconds = 0f, float durationSeconds = 1f)
+    {
+      if(string.IsNullOrEmpty(tooltipText)) return;
+      
+      _temporaryTooltipShowed = true;
+      
+      TokenCancel();
+      if(_gameScreen != null) await _gameScreen.ForceHideTooltip();
+      
+      _ctsTemporary ??= new CancellationTokenSource();
+      await ShowTooltip(tooltipText, delaySeconds, cancellationToken: _ctsTemporary.Token);
+      
+      var cancellationHandler = await UniTask.Delay(TimeSpan.FromSeconds(durationSeconds), cancellationToken: _ctsTemporary.Token)
+        .SuppressCancellationThrow();
+      
+      if(cancellationHandler) return;
+
+      _temporaryTooltipShowed = false;
+      _gameScreen.HideTooltip();
+    }
+
+    private async UniTask ShowTooltip(string tooltipText, float delaySeconds, CancellationToken cancellationToken)
+    {
+      if(string.IsNullOrEmpty(tooltipText)) return;
+      
+      GetGameScreen();
       
       var cancellationHandler = await UniTask
-        .Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken:  _cts.Token)
+        .Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken:  cancellationToken)
         .SuppressCancellationThrow();
       
       if(cancellationHandler) return;
@@ -38,26 +71,11 @@ namespace TelephoneBooth.Game.TooltipSystem.Services
       _gameScreen.ShowTooltip(tooltipText);
     }
 
-    public async UniTask TryShowTemporaryTooltip(string tooltipText, float delaySeconds = 0f, float durationSeconds = 1f)
-    {
-      if(string.IsNullOrEmpty(tooltipText)) return;
-      
-      await TryShowTooltip(tooltipText, delaySeconds);
-      
-      _cts ??= new CancellationTokenSource();
-      
-      var cancellationHandler = await UniTask
-        .Delay(TimeSpan.FromSeconds(durationSeconds), cancellationToken:  _cts.Token)
-        .SuppressCancellationThrow();
-      
-      if(cancellationHandler) return;
-      
-      HideTooltip();
-    }
-
     public void HideTooltip()
     {
       TokenCancel();
+      
+      if(_temporaryTooltipShowed) return;
       _gameScreen?.HideTooltip();
     }
     
@@ -73,10 +91,18 @@ namespace TelephoneBooth.Game.TooltipSystem.Services
       _cts?.Dispose();
       _cts = null;
     }
+    
+    private void TemporaryTokenCancel()
+    {
+      _ctsTemporary?.Cancel();
+      _ctsTemporary?.Dispose();
+      _ctsTemporary = null;
+    }
 
     public void LateDispose()
     {
       TokenCancel();
+      TemporaryTokenCancel();
     }
   }
 }

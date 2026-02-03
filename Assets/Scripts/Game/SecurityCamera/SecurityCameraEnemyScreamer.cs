@@ -16,7 +16,6 @@ namespace TelephoneBooth.Game.SecurityCamera
     [Inject] private readonly IEnemyVisibleService _enemyVisibleService;
     [Inject] private readonly ISecurityCameraService _securityCameraService;
     
-    [SerializeField] private GameObject _chair;
     [SerializeField] private Transform _spawnPoint;
 
     private BaseEnemy _enemy;
@@ -33,7 +32,6 @@ namespace TelephoneBooth.Game.SecurityCamera
       await _enemy.RotateTo(_securityCameraService.CurrentSecurityCamera.Camera.transform.position, withHead: true);
       await UniTask.Delay(TimeSpan.FromSeconds(0.35f));
       var enemy = await _enemyScreamerFactory.CreateEnemyScreamer(_spawnPoint.position, _spawnPoint.eulerAngles);
-      _chair.SetActive(false);
       enemy.Hit();
       _enemy.gameObject.SetActive(false);
     }

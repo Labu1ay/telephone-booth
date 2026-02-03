@@ -12,10 +12,13 @@ namespace TelephoneBooth.UI.ScreenSystem
       _screenFactory = screenFactory;
     }
 
-    public void ShowScreen<T>() where T : Screen
+    public bool HasActiveScreen<T>() where T: Screen => _screenFactory.Has<T>();
+
+    public T ShowScreen<T>() where T : Screen
     {
       var screen = _screenFactory.GetOrCreate<T>();
       screen.gameObject.SetActive(true);
+      return (T)screen;
     }
 
     public void HideScreen<T>() where T : Screen

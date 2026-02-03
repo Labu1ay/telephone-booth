@@ -34,6 +34,7 @@ namespace TelephoneBooth.Game.Interactable
     private Component _interactableComponent;
     
     private IDisposable _disposable;
+    private IDisposable _gameStateDisposable;
 
     [Inject]
     public InteractableContinuousService(
@@ -57,13 +58,24 @@ namespace TelephoneBooth.Game.Interactable
       _camera = await _playerCameraProvider.GetCameraAsync();
       _cameraTransform = _camera.transform;
 
-      _gameStateService.GameStateFinished += GameStateFinished;
+      _gameStateDisposable = _gameStateService.GameState.Subscribe(_ => Cleanup());
+
     }
-    
-    private void GameStateFinished(GameStateType stateType)
+
+    public async UniTaskVoid InteractContinuous(float duration, Action onFinished)
     {
-      if (stateType != GameStateType.GAME) return;
-      Cleanup();
+      _inputService.InteractHandler += OnInteractReleased;
+      
+      _disposable = Observable.EveryUpdate().Subscribe(_ =>
+      {
+        _timer += Time.deltaTime;
+        
+        if (_timer >= duration)
+        {
+          Cleanup();
+          onFinished?.Invoke();
+        }
+      });
     }
 
     public async UniTaskVoid InteractContinuous(IInteractable interactable, float duration, Action onFinished)
@@ -169,8 +181,8 @@ namespace TelephoneBooth.Game.Interactable
 
     public void LateDispose()
     {
-      _gameStateService.GameStateFinished -= GameStateFinished;
       Cleanup();
+      _gameStateDisposable?.Dispose();
     }
   }
 }
