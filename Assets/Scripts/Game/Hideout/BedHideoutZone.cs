@@ -2,7 +2,7 @@
 
 namespace TelephoneBooth.Game.Hideout
 {
-  public class BedHideoutZone : HideoutZone
+  public class BedHideoutZone : HideoutZone 
   {
     public override void Interact()
     {
