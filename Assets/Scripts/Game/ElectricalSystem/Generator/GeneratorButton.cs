@@ -10,7 +10,7 @@ using Sequence = DG.Tweening.Sequence;
 
 namespace TelephoneBooth.Game.ElectricalSystem.Generator
 {
-  public class GeneratorButton : MonoBehaviour, ITooltipInteractable
+  public class GeneratorButton : MonoBehaviour, ITooltipInteractable, ILockable
   {
     private const float PRESSED_BUTTON_DURATION = 0.35f;
     
@@ -22,6 +22,8 @@ namespace TelephoneBooth.Game.ElectricalSystem.Generator
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
     public string TooltipText => "Press E to start generator";
     private Transform _buttonTransform => _buttonRenderer.transform;
+    
+    public bool IsLocked { get; private set; }
     
     private Vector3 _startButtonPosition;
     private Sequence _sequence;
@@ -40,6 +42,9 @@ namespace TelephoneBooth.Game.ElectricalSystem.Generator
           GeneratorStateType.GeneratorIsOn => Color.green,
           _ => Color.gray
         };
+
+        if (state != GeneratorStateType.GeneratorIsOn)
+          IsLocked = false;
       });
     }
 
@@ -52,9 +57,7 @@ namespace TelephoneBooth.Game.ElectricalSystem.Generator
           break;
         case GeneratorStateType.GeneratorIsOff:
           PlayButtonAnimation(() => _generatorStateService.SetGeneratorState(GeneratorStateType.GeneratorIsOn));
-          break;
-        case GeneratorStateType.GeneratorIsOn:
-          PlayButtonAnimation(() => _generatorStateService.SetGeneratorState(GeneratorStateType.GeneratorIsOff));
+          IsLocked = true;
           break;
       }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using TelephoneBooth.Core.Services;
+﻿using TelephoneBooth.Core.Services;
 using TelephoneBooth.Game.ElectricalSystem.Services;
 using TelephoneBooth.Game.Interactable;
 using UniRx;
@@ -15,6 +14,7 @@ namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
     [Inject] private readonly ICameraMovementService _cameraMovementService;
     [Inject] private readonly IInteractiveCameraService _interactiveCameraService;
     [Inject] private readonly IGeneratorStateService _generatorStateService;
+    [Inject] private readonly IElectricalStateService _electricalStateService;
     [Inject] private readonly IFusesPanelService _fusesPanelService;
     [Inject] private readonly IInteractableContinuousService _interactableContinuousService;
     
@@ -24,14 +24,20 @@ namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
     [SerializeField] private Transform _cameraPoint;
     [SerializeField] private Collider _collider;
 
-    private IDisposable _disposable;
+    private CompositeDisposable _disposables = new CompositeDisposable();
 
     private void Start()
     {
-      _disposable = _generatorStateService.CurrentGeneratorState.Subscribe(state =>
+      _generatorStateService.CurrentGeneratorState.Subscribe(state =>
       {
-        //IsLocked = state == GeneratorStateType.NoFuel;
-      });
+        IsLocked = state == GeneratorStateType.NoFuel;
+      }).AddTo(_disposables);
+
+      _electricalStateService.CurrentElectricalState.Subscribe(state =>
+      {
+        if (state == ElectricalStateType.PowerIsOn)
+          IsLocked = true;
+      }).AddTo(_disposables);
     }
 
     public void Interact()
@@ -67,7 +73,7 @@ namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
 
     private void OnDestroy()
     {
-      _disposable?.Dispose();
+      _disposables?.Clear();
     }
   }
 }

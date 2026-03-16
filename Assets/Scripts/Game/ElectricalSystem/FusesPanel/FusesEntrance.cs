@@ -23,6 +23,8 @@ namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
     
     private FusePanelItem _placedFusePanelItem;
     private SaveContainer<ItemTypeId> _placedFuseIdSaveContainer;
+
+    public ItemTypeId PlacedFuseId => _placedFuseIdSaveContainer.Item;
     
     private void Start()
     {

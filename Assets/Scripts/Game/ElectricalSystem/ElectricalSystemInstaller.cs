@@ -17,7 +17,10 @@ namespace TelephoneBooth.Game.ElectricalSystem
       Container.BindInterfacesAndSelfTo<FusesPanelItemFactory>().AsSingle();
       
       Container.BindInterfacesAndSelfTo<GeneratorStateService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<ElectricalStateService>().AsSingle();
+      
       Container.BindInterfacesAndSelfTo<FusesPanelService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<FusesOrderService>().AsSingle();
     }
   }
 }
