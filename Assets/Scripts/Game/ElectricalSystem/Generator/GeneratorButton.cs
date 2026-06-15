@@ -43,8 +43,7 @@ namespace TelephoneBooth.Game.ElectricalSystem.Generator
           _ => Color.gray
         };
 
-        if (state != GeneratorStateType.GeneratorIsOn)
-          IsLocked = false;
+        IsLocked = state == GeneratorStateType.GeneratorIsOn;
       });
     }
 

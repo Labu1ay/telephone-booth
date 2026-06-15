@@ -44,6 +44,7 @@ namespace TelephoneBooth.Game.TooltipSystem.Services
       TokenCancel();
       if(_gameScreen != null) await _gameScreen.ForceHideTooltip();
       
+      TemporaryTokenCancel();
       _ctsTemporary ??= new CancellationTokenSource();
       await ShowTooltip(tooltipText, delaySeconds, cancellationToken: _ctsTemporary.Token);
       

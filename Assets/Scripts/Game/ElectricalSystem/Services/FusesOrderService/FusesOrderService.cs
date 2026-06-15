@@ -5,6 +5,7 @@ using TelephoneBooth.Core.Services;
 using TelephoneBooth.Game.ElectricalSystem.Configs;
 using TelephoneBooth.Game.ElectricalSystem.FusesPanel;
 using TelephoneBooth.InventorySystem;
+using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -35,8 +36,18 @@ namespace TelephoneBooth.Game.ElectricalSystem.Services
       if (_neededFusesOrder.Item == null)
       {
         _neededFusesOrder.Item = GetNewFusesOrder();
-        _savingService.SaveKey(NEEDED_FUSES_ORDER_SAVE_KEY);
       }
+      
+#if UNITY_EDITOR
+      var fusesOrderDebug = "";
+      
+      foreach (var fuseOrder in _neededFusesOrder.Item)
+      {
+        fusesOrderDebug += fuseOrder.Key + ": "  + fuseOrder.Value;
+        fusesOrderDebug += "||";
+      }
+      Debug.Log(fusesOrderDebug);
+#endif
     }
 
     public bool CheckCorrectPlacedFuses(Dictionary<FusesEntranceTypeId, ItemTypeId> placedFuses) => 

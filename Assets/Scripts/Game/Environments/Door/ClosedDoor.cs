@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using TelephoneBooth.Core.Services;
 using TelephoneBooth.Game.TooltipSystem.Services;
 using TelephoneBooth.InventorySystem;
 using TelephoneBooth.InventorySystem.Services;
@@ -9,15 +10,26 @@ namespace TelephoneBooth.Game.Environments
 {
   public class ClosedDoor : Door
   {
+    private const string FORMAT_SAVE_KEY = "ClosedDoor_{0}";
+    
+    [Inject] private readonly ISavingService _savingService;
     [Inject] private readonly IInventoryService _inventoryService;
     [Inject] private readonly ITooltipService _tooltipService;
     
     [SerializeField] private ItemTypeId _openedItemTypeId;
-    [SerializeField] private bool _isOpened;
+    
+    private SaveContainer<bool> _isOpenedSaveContainer;
+
+    protected override void Start()
+    {
+      base.Start();
+      
+      _isOpenedSaveContainer = _savingService.GetPackage(string.Format(FORMAT_SAVE_KEY, _openedItemTypeId), false);
+    }
 
     public override void Interact()
     {
-      if (_isOpened)
+      if (_isOpenedSaveContainer.Item)
       {
         base.Interact();
         return;
@@ -26,7 +38,7 @@ namespace TelephoneBooth.Game.Environments
       if (_inventoryService.HasItem(_openedItemTypeId))
       {
         _inventoryService.RemoveItem(_openedItemTypeId);
-        _isOpened = true;
+        _isOpenedSaveContainer.Item = true;
         _tooltipService.TryShowTemporaryTooltip("The door is opened.", durationSeconds: 1f);
         return;
       }

@@ -1,4 +1,5 @@
-﻿using TelephoneBooth.Core.Services;
+﻿using System;
+using TelephoneBooth.Core.Services;
 using TelephoneBooth.Game.ElectricalSystem.Services;
 using TelephoneBooth.Game.Interactable;
 using UniRx;
@@ -7,7 +8,7 @@ using Zenject;
 
 namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
 {
-  public class FusesPanelZone : MonoBehaviour, IInteractable, ILockable
+  public class FusesPanelZone : MonoBehaviour, ITooltipInteractable, ILockable
   {
     [Inject] private readonly IInputService _inputService;
     [Inject] private readonly IGameStateService _gameStateService;
@@ -20,24 +21,21 @@ namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
     
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
     public bool IsLocked { get; private set; }
+    
+    public string TooltipText => "Press E to open the fuses panel";
 
     [SerializeField] private Transform _cameraPoint;
     [SerializeField] private Collider _collider;
 
-    private CompositeDisposable _disposables = new CompositeDisposable();
+    private IDisposable _disposable;
 
     private void Start()
     {
-      _generatorStateService.CurrentGeneratorState.Subscribe(state =>
-      {
-        IsLocked = state == GeneratorStateType.NoFuel;
-      }).AddTo(_disposables);
-
-      _electricalStateService.CurrentElectricalState.Subscribe(state =>
+      _disposable = _electricalStateService.CurrentElectricalState.Subscribe(state =>
       {
         if (state == ElectricalStateType.PowerIsOn)
           IsLocked = true;
-      }).AddTo(_disposables);
+      });
     }
 
     public void Interact()
@@ -73,7 +71,7 @@ namespace TelephoneBooth.Game.ElectricalSystem.FusesPanel
 
     private void OnDestroy()
     {
-      _disposables?.Clear();
+      _disposable?.Dispose();
     }
   }
 }

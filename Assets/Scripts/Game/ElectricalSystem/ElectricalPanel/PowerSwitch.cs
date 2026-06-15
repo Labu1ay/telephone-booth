@@ -10,7 +10,7 @@ using Zenject;
 
 namespace TelephoneBooth.Game.ElectricalSystem.ElectricalPanel
 {
-  public class PowerSwitch : MonoBehaviour, ITooltipInteractable
+  public class PowerSwitch : MonoBehaviour, ITooltipInteractable, ILockable
   {
     private const float SWITCH_DURATION = 0.5f;
     
@@ -25,11 +25,22 @@ namespace TelephoneBooth.Game.ElectricalSystem.ElectricalPanel
     [SerializeField] private Vector3 _powerOnEulerAngle;
 
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
+    
+    public bool IsLocked { get; private set; }
+    
     public string TooltipText => "Press E to switch power";
 
     private bool _isSwitching;
     private Tween _tween;
-    
+
+    private void Start()
+    {
+      IsLocked = _electricalStateService.CurrentElectricalState.Value == ElectricalStateType.PowerIsOn;
+      
+      if (IsLocked) 
+        StartSwitchAnimation(_powerOnEulerAngle).Forget();
+    }
+
     public async void Interact()
     {
       if(_isSwitching) return;
@@ -45,10 +56,6 @@ namespace TelephoneBooth.Game.ElectricalSystem.ElectricalPanel
         case ElectricalStateType.PowerIsOff: 
           TryStartEnergy().Forget();
           break;
-        case ElectricalStateType.PowerIsOn:
-          await StartSwitchAnimation(_powerOffEulerAngle);
-          _electricalStateService.SetElectricalState(ElectricalStateType.PowerIsOff);
-          break;
       }
     }
     
@@ -62,11 +69,11 @@ namespace TelephoneBooth.Game.ElectricalSystem.ElectricalPanel
       if (_fusesOrderService.CheckCorrectPlacedFuses(placedFuses))
       {
         _electricalStateService.SetElectricalState(ElectricalStateType.PowerIsOn);
+        IsLocked = true;
         return;
       }
 
       StartSwitchAnimation(_powerOffEulerAngle).Forget();
-      _generatorStateService.SetGeneratorState(GeneratorStateType.GeneratorIsOff);
       _tooltipService.TryShowTemporaryTooltip("Fuses are missing or incorrectly placed");
       // elector VFX
       // command to enemy

@@ -1,8 +1,10 @@
 ﻿using DG.Tweening;
 using TelephoneBooth.Game.Interactable;
+using TelephoneBooth.Player.Factory;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Zenject;
 
 namespace TelephoneBooth.Game.Environments
 {
@@ -10,10 +12,13 @@ namespace TelephoneBooth.Game.Environments
   {
     private const float OPEN_DURATION = 0.75f;
 
+    [Inject] private readonly IPlayerFactory _playerFactory;
+    
     [field: SerializeField] public InteractableOutline Outline { get; private set; }
     [SerializeField] private Collider _collider;
-    [SerializeField] private Vector3 _openEulerAngles;
+    [SerializeField] private float _openYAngle = 105f;
 
+    private GameObject _player;
     private bool _isOpen;
     protected Tween _tween;
 
@@ -21,25 +26,37 @@ namespace TelephoneBooth.Game.Environments
     
     public string TooltipText => "Press E to open or close the door";
 
+    protected async virtual void Start()
+    {
+      _player = await _playerFactory.GetPlayerAsync();
+    }
+
     public virtual void Interact()
     {
       if (_isOpen)
         CloseDoor();
       else
-        OpenDoor();
+        OpenDoor(_player.transform);
 
       _isOpen = !_isOpen;
     }
 
-    private void OpenDoor()
+    private void OpenDoor(Transform characterTransform)
     {
-      TriggerSubscribe();
-      RotateDoor(_openEulerAngles, Ease.Linear);
+      _disposables?.Clear();
+      
+      Vector3 directionToPlayer = characterTransform.position - transform.position;
+      directionToPlayer.y = 0; 
+
+      float dot = Vector3.Dot(transform.forward, directionToPlayer.normalized);
+      float targetAngle = (dot > 0) ? -_openYAngle : _openYAngle;
+
+      RotateDoor(new Vector3(0, targetAngle, 0), Ease.Linear);
     }
 
     private void CloseDoor()
     {
-      _disposables?.Clear();
+      TriggerSubscribe();
       RotateDoor(Vector3.zero, Ease.Linear);
     }
 
@@ -60,7 +77,7 @@ namespace TelephoneBooth.Game.Environments
      _disposables?.Clear();
 
       _collider
-        .OnTriggerEnterAsObservable()
+        .OnTriggerStayAsObservable()
         .Subscribe(other =>
         {
           if (other.gameObject.layer != LayerMask.NameToLayer(Constants.PLAYER_LAYER)) return;
