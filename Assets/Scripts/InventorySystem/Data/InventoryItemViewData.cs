@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace TelephoneBooth.InventorySystem.Data
@@ -7,6 +8,6 @@ namespace TelephoneBooth.InventorySystem.Data
   public struct InventoryItemViewData
   {
     public string ItemName;
-    public Sprite Icon;
+    [PreviewField] public Sprite Icon;
   }
 }

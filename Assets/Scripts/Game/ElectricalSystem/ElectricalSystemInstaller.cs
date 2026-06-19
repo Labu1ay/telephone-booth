@@ -1,6 +1,7 @@
 ﻿using TelephoneBooth.Game.ElectricalSystem.Configs;
 using TelephoneBooth.Game.ElectricalSystem.Factory;
 using TelephoneBooth.Game.ElectricalSystem.Services;
+using TelephoneBooth.Game.ElectricalSystem.Services.TumblerOrderService;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +22,9 @@ namespace TelephoneBooth.Game.ElectricalSystem
       
       Container.BindInterfacesAndSelfTo<FusesPanelService>().AsSingle();
       Container.BindInterfacesAndSelfTo<FusesOrderService>().AsSingle();
+      
+      Container.BindInterfacesAndSelfTo<TumblerStateService>().AsSingle();
+      Container.BindInterfacesAndSelfTo<TumblerOrderService>().AsSingle();
     }
   }
 }
