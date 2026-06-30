@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0b0c553be8edd4682e9180fdd13e37, type: 3}
+  m_Name: I2Languages
+  m_EditorClassIdentifier: 
+  mSource:
+    UserAgreesToHaveItOnTheScene: 0
+    UserAgreesToHaveItInsideThePluginsFolder: 0
+    GoogleLiveSyncIsUptoDate: 0
+    mTerms:
+    - Term: Tooltip/view_door_close
+      TermType: 0
+      Description: 
+      Languages:
+      - Press E to close the door
+      - "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 \u043A\u043B\u0430\u0432\u0438\u0448\u0443
+        E, \u0447\u0442\u043E\u0431\u044B \u0437\u0430\u043A\u0440\u044B\u0442\u044C
+        \u0434\u0432\u0435\u0440\u044C."
+      - "\u6309 E \u952E\u5173\u95E8"
+      - Appuyez sur E pour fermer la porte
+      - "Dr\xFCcken Sie E, um die T\xFCr zu schlie\xDFen."
+      - "E\u30AD\u30FC\u3092\u62BC\u3057\u3066\u30C9\u30A2\u3092\u9589\u3081\u307E\u3059"
+      - Premi E per chiudere la porta
+      - "E \uD0A4\uB97C \uB20C\uB7EC \uBB38\uC744 \uB2EB\uC73C\uC138\uC694"
+      - "Naci\u015Bnij E, aby zamkn\u0105\u0107 drzwi"
+      - Pressione E para fechar a porta.
+      - Pulsa E para cerrar la puerta.
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    - Term: Tooltip/view_door_open
+      TermType: 0
+      Description: 
+      Languages:
+      - Press E to open the door
+      - "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 \u043A\u043B\u0430\u0432\u0438\u0448\u0443
+        E, \u0447\u0442\u043E\u0431\u044B \u043E\u0442\u043A\u0440\u044B\u0442\u044C
+        \u0434\u0432\u0435\u0440\u044C."
+      - "\u6309 E \u952E\u5F00\u95E8"
+      - Appuyez sur E pour ouvrir la porte
+      - "Dr\xFCcken Sie E, um die T\xFCr zu \xF6ffnen."
+      - "E\u30AD\u30FC\u3092\u62BC\u3057\u3066\u30C9\u30A2\u3092\u958B\u3051\u3066\u304F\u3060\u3055\u3044"
+      - Premi E per aprire la porta
+      - "E \uD0A4\uB97C \uB20C\uB7EC \uBB38\uC744 \uC5EC\uC138\uC694"
+      - "Naci\u015Bnij E, aby otworzy\u0107 drzwi"
+      - Pressione E para abrir a porta.
+      - Pulsa E para abrir la puerta.
+      Flags: 0000000000000000000000
+      Languages_Touch: []
+    CaseInsensitiveTerms: 0
+    OnMissingTranslation: 1
+    mTerm_AppName: 
+    mLanguages:
+    - Name: English
+      Code: en-US
+      Flags: 0
+    - Name: Russian
+      Code: ru
+      Flags: 0
+    - Name: Chinese
+      Code: zh-CN
+      Flags: 0
+    - Name: French
+      Code: fr-FR
+      Flags: 0
+    - Name: German
+      Code: de-DE
+      Flags: 0
+    - Name: Japanese
+      Code: ja
+      Flags: 0
+    - Name: Italian
+      Code: it-IT
+      Flags: 0
+    - Name: Korean
+      Code: ko
+      Flags: 0
+    - Name: Polish
+      Code: pl
+      Flags: 0
+    - Name: Portuguese
+      Code: pt-BR
+      Flags: 0
+    - Name: Spanish
+      Code: es-ES
+      Flags: 0
+    IgnoreDeviceLanguage: 0
+    _AllowUnloadingLanguages: 0
+    Google_WebServiceURL: https://script.google.com/macros/s/AKfycbw5gibq0M38Nt14NfrefOOmZhBuDCxWX6gEXfMEWUMkYTVxorgV7Z2l3VClX18xEbrk/exec
+    Google_SpreadsheetKey: 1fyS1snvt_paw5GqfYSnKn1lEt0to7yAN_QMxkCBQ5Zs
+    Google_SpreadsheetName: I2Loc telephone-booth Localization
+    Google_LastUpdatedVersion: 
+    Google_Password: G162129mm@
+    GoogleUpdateFrequency: 3
+    GoogleInEditorCheckFrequency: 2
+    GoogleUpdateSynchronization: 1
+    GoogleUpdateDelay: 0
+    Assets: []
+    Spreadsheet_LocalFileName: 
+    Spreadsheet_LocalCSVSeparator: ','
+    Spreadsheet_LocalCSVEncoding: utf-8
+    Spreadsheet_SpecializationAsRows: 1

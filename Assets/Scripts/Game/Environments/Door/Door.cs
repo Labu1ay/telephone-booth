@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using TelephoneBooth.Game.Interactable;
+using TelephoneBooth.Localization;
 using TelephoneBooth.Player.Factory;
 using UniRx;
 using UniRx.Triggers;
@@ -24,7 +25,7 @@ namespace TelephoneBooth.Game.Environments
 
     private CompositeDisposable _disposables = new CompositeDisposable();
     
-    public string TooltipText => "Press E to open or close the door";
+    public string TooltipText => _isOpen ? Terms.TooltipViewDoorClose : Terms.TooltipViewDoorOpen;
 
     protected async virtual void Start()
     {

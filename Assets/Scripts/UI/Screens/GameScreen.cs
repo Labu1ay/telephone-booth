@@ -1,7 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using TMPro;
+using TelephoneBooth.Localization.Services;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 using Screen = TelephoneBooth.UI.ScreenSystem.Screen;
 
 namespace TelephoneBooth.UI.Screens
@@ -10,7 +12,9 @@ namespace TelephoneBooth.UI.Screens
   {
     private const float TOOLTIP_FADE_DURATION = 0.5f;
     
-    [SerializeField] private TextMeshProUGUI _tooltipText;
+    [Inject] private readonly ILocalizationService _localizationService;
+    
+    [SerializeField] private Text _tooltipText;
 
     private Tween _tooltipTween;
 
@@ -23,7 +27,7 @@ namespace TelephoneBooth.UI.Screens
     {
       ForceHideTooltip().Forget();
       
-      _tooltipText.text = tooltipText;
+      _tooltipText.text = _localizationService.GetTranslation(tooltipText);
       SetTooltipTextFade(1f, TOOLTIP_FADE_DURATION).Forget();
     }
     

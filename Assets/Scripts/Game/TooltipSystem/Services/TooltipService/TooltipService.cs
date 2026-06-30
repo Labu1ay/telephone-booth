@@ -72,6 +72,8 @@ namespace TelephoneBooth.Game.TooltipSystem.Services
       _gameScreen.ShowTooltip(tooltipText);
     }
 
+   
+
     public void HideTooltip()
     {
       TokenCancel();
