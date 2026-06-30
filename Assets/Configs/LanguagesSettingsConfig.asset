@@ -15,7 +15,18 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: d2c8f3b551f2b104888201c734ca29fe, type: 3}
+    - {fileID: 21300000, guid: 0ff72efbea1bc474091ea93c8f8dcb50, type: 3}
+    - {fileID: 21300000, guid: fb279cc9f32e2034b907da003d8315f0, type: 3}
+    - {fileID: 21300000, guid: 2d1eb5d7d5e130044a54e022e16b1f93, type: 3}
+    - {fileID: 21300000, guid: c10d8d501edccf840ba9b3b11933b781, type: 3}
+    - {fileID: 21300000, guid: cae78f929918013439d33449b5232061, type: 3}
+    - {fileID: 21300000, guid: f13f76756caf1034680f3f8b9c1ce8b2, type: 3}
+    - {fileID: 21300000, guid: 5ec574c46afed824d86111d249c9861f, type: 3}
+    - {fileID: 21300000, guid: 0670d27bd8bad004fb8286119e4fc353, type: 3}
+    - {fileID: 21300000, guid: 53e76fea3d7c08449ba1d8e255e9c7c4, type: 3}
+    - {fileID: 21300000, guid: 22ac9fa7761eb4641a1d31afaa4a03ac, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -34,7 +45,238 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
+      Data: 11
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: English
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: English
+    - Name: LanguageFlagSprite
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Russian
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Chinese
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "\u4E2D\u56FD\u4EBA"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: French
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "Fran\xE7ais"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: German
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: Deutsch
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Japanese
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "\u65E5\u672C\u8A9E"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Italian
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: Italiano
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Korean
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "\uD55C\uAD6D\uC778"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Polish
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: Polski
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Portuguese
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "Portugu\xEAs"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Spanish
+    - Name: $v
+      Entry: 7
+      Data: TelephoneBooth.Localization.Data.LanguageSettings, Assembly-CSharp
+    - Name: LanguageText
+      Entry: 1
+      Data: "Espa\xF1ol"
+    - Name: LanguageFlagSprite
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
